@@ -136,7 +136,7 @@ elif ((cword == 2)) && [[ $prev = @(delete|get) ]]; then # previous = delete/get
 	COMPREPLY=( $( compgen -P '"' -S '"' -W '${COMPREPLY[@]}' -- "$cur" ) )
 elif ((cword == 3)) && [[ $str_act = add ]]; then # quota args for add command
 	COMPREPLY=( $( compgen -W 'byte packet' -- "$cur" ) )
-elif ((cword == 3)) && [[ $str_act = get ]]; then # get has xml param
+elif ((cword == 3)) && [[ $str_act = get ]]; then # get has json/xml param
 	COMPREPLY=( $( compgen -W 'json xml' -- "$cur" ) )
 elif ((cword == 3)) && [[ $str_act = list && $prev = reset ]]; then # filter
 	COMPREPLY=( $( compgen -W 'counters overquota bytes-quota pkts-quota' \
