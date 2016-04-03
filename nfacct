@@ -110,7 +110,7 @@ fi
 
 # gather information about the command line
 if [[ ${words[1]} = @($(IFS='|' ;printf "%s\n" "${arr_par[*]}")) ]]; then
-	str_act="${words[1]}" # this is the main parameter
+	str_act="${words[1]}" # this is the main command
 fi
 
 # here we go
