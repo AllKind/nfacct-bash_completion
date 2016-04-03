@@ -126,6 +126,8 @@ elif ((cword == 2)) && [[ $prev = @(delete|get) ]]; then # prev = delete/get
 	done < <(command nfacct list 2>/dev/null)
 	local IFS=$'\n' # to support object names with spaces
 	COMPREPLY=( $( compgen -P '"' -S '"' -W '${COMPREPLY[@]}' -- "$cur" ) )
+elif ((cword == 3)) && [[ $str_act = add ]]; then # quota args for add command
+	COMPREPLY=( $( compgen -W 'byte packet' -- "$cur" ) )
 elif ((cword == 3)) && [[ $str_act = get ]]; then # get has xml param
 	COMPREPLY=( $( compgen -W 'json xml' -- "$cur" ) )
 fi
