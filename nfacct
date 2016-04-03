@@ -85,18 +85,24 @@
 shopt -s extglob
 
 _nfacct_complete() {
-local cur prev cword words
+local cur prev cword words str_tmp
 local -i i
 
-# main action
+# main command
 local str_act=""
 
-# main parameters
+# main commands
 local -a arr_par=( list add delete get flush monitor restore version help )
 
-# expecting _get_comp_words_by_ref() to exist from bash_completion
-if declare -f _get_comp_words_by_ref &>/dev/null; then
-    _get_comp_words_by_ref -n : cur prev cword words || return
+COMPREPLY=()
+
+# if _init_completion() from bash_completion is available, use it to deal with
+# variables and redirections. otherwise use _get_comp_words_by_ref().
+# as fallback we commpose our own variables.
+if declare -f _init_completion &>/dev/null; then
+	_init_completion || return # ret val -gt 0 = nothing more to do
+elif declare -f _get_comp_words_by_ref &>/dev/null; then
+    _get_comp_words_by_ref cur prev cword words || return
 else # not so neat, but a workaround - will fail w/ spaces in obj names
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
@@ -110,9 +116,7 @@ if [[ ${words[1]} = @($(IFS='|' ;printf "%s\n" "${arr_par[*]}")) ]]; then
 fi
 
 # here we go
-COMPREPLY=()
-
-if ((cword == 1)); then # main parameter
+if ((cword == 1)); then # main command
 	COMPREPLY=( $( compgen -W '${arr_par[@]}' -- "$cur" ) )
 elif ((cword == 2)) && [[ $prev = list ]]; then # prev = list
 	COMPREPLY=( $( compgen -W 'reset xml' -- "$cur" ) )
