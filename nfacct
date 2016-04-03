@@ -30,7 +30,7 @@
 # The bash completion package version 2.0 or greater is recommended.
 # https://github.com/scop/bash-completion
 # If bash completion is present, and the version includes the
-# `_init_completion' function, completion on variables and redirection
+# `_init_completion()' function, completion on variables and redirection
 # is available in addition. Otherwise option completion is fully supported,
 # with the only exception, that object names with spaces are not working.
 # -----------------------------------------------------------------
