@@ -6,9 +6,10 @@ http://www.netfilter.org/projects/nfacct/index.html
 
 Project home:
 https://github.com/AllKind/nfacct-bash_completion
+
 https://sourceforge.net/projects/nfacct-bashcompletion
 
-Requirements:
+Requirements
 ==========
 
 The bash completion package version 2.0 or greater is recommended.
