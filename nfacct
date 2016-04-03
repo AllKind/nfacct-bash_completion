@@ -117,7 +117,7 @@ fi
 if ((cword == 1)); then # main command
 	COMPREPLY=( $( compgen -W '${arr_par[@]}' -- "$cur" ) )
 elif ((cword == 2)) && [[ $prev = list ]]; then # prev = list
-	COMPREPLY=( $( compgen -W 'reset xml' -- "$cur" ) )
+	COMPREPLY=( $( compgen -W 'reset json xml' -- "$cur" ) )
 elif ((cword == 2)) && [[ $prev = @(delete|get) ]]; then # prev = delete/get
 	while read -r; do # retrieve object table
 		str_tmp="${REPLY##*=+([[:blank:]])}"
@@ -127,7 +127,7 @@ elif ((cword == 2)) && [[ $prev = @(delete|get) ]]; then # prev = delete/get
 	local IFS=$'\n' # to support object names with spaces
 	COMPREPLY=( $( compgen -P '"' -S '"' -W '${COMPREPLY[@]}' -- "$cur" ) )
 elif ((cword == 3)) && [[ $str_act = get ]]; then # get has xml param
-	COMPREPLY=( $( compgen -W 'xml' -- "$cur" ) )
+	COMPREPLY=( $( compgen -W 'json xml' -- "$cur" ) )
 fi
 }
 
