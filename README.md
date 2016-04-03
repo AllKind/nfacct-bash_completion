@@ -5,9 +5,11 @@ Programmable completion specification for nfacct (netfilter)
 http://www.netfilter.org/projects/nfacct/index.html
 
 Project home:
+
 https://github.com/AllKind/nfacct-bash_completion
 
 https://sourceforge.net/projects/nfacct-bashcompletion
+
 
 Requirements
 ==========
@@ -18,6 +20,7 @@ If bash completion is present, and the version includes the
 **_init_completion()** function, completion on variables and redirection
 is available in addition. Otherwise option completion is fully supported,
 with the only exception, that object names with spaces are not working.
+
 
 Installation
 ============
