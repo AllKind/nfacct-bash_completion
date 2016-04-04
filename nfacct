@@ -89,7 +89,7 @@
 shopt -s extglob
 
 _nfacct_complete() {
-local cur prev cword words str_tmp
+local cur prev cword words
 local -i i
 
 # main command
@@ -115,32 +115,36 @@ else # not so neat, but a workaround - will fail w/ spaces in obj names
 fi
 
 # gather information about the command line
-if [[ ${words[1]} = @($(IFS='|' ;printf "%s\n" "${arr_par[*]}")) ]]; then
+if [[ ${words[1]} = @($(IFS='|' ;printf "%s\n" "${arr_par[*]}") ) ]]; then
 	str_act="${words[1]}" # this is the main command
 fi
 
 # here we go
 if ((cword == 1)); then # main command
 	COMPREPLY=( $( compgen -W '${arr_par[@]}' -- "$cur" ) )
-elif ((cword == 2)) && [[ $prev = list ]]; then # previous = list
-	COMPREPLY=( $( compgen -W \
-		'reset json xml counters overquota bytes-quota pkts-quota' \
-		-- "$cur" ) )
-elif ((cword == 2)) && [[ $prev = @(delete|get) ]]; then # previous = delete/get
-	while read -r; do # retrieve object table
-		str_tmp="${REPLY##*=+([[:blank:]])}"
-		str_tmp="${str_tmp%;}"
-		COMPREPLY[${#COMPREPLY[@]}]="$str_tmp"
-	done < <(command nfacct list 2>/dev/null)
-	local IFS=$'\n' # to support object names with spaces
-	COMPREPLY=( $( compgen -P '"' -S '"' -W '${COMPREPLY[@]}' -- "$cur" ) )
-elif ((cword == 3)) && [[ $str_act = add ]]; then # quota args for add command
-	COMPREPLY=( $( compgen -W 'byte packet' -- "$cur" ) )
-elif ((cword == 3)) && [[ $str_act = get ]]; then # get has json/xml param
-	COMPREPLY=( $( compgen -W 'json xml' -- "$cur" ) )
-elif ((cword == 3)) && [[ $str_act = list && $prev = reset ]]; then # filter
-	COMPREPLY=( $( compgen -W 'counters overquota bytes-quota pkts-quota' \
-		-- "$cur" ) )
+elif ((cword == 2)); then
+	if [[ $prev = list ]]; then # previous = list
+		COMPREPLY=( $( compgen -W \
+			'reset json xml counters overquota bytes-quota pkts-quota' \
+			-- "$cur" ) )
+	elif [[ $prev = @(delete|get) ]]; then # previous = delete/get
+		while read -r; do # retrieve object table
+			REPLY="${REPLY##*=+([[:blank:]])}"
+			REPLY="${REPLY%;}"
+			COMPREPLY[${#COMPREPLY[@]}]="$REPLY"
+		done < <(command nfacct list 2>/dev/null)
+		local IFS=$'\n' # to support object names with spaces
+		COMPREPLY=( $( compgen -P '"' -S '"' -W '${COMPREPLY[@]}' -- "$cur" ) )
+	fi
+elif ((cword == 3)); then
+	if [[ $str_act = add ]]; then # quota args for add command
+		COMPREPLY=( $( compgen -W 'byte packet' -- "$cur" ) )
+	elif [[ $str_act = get ]]; then # get has json/xml param
+		COMPREPLY=( $( compgen -W 'json xml' -- "$cur" ) )
+	elif [[ $str_act = list && $prev = reset ]]; then # filter
+		COMPREPLY=( $( compgen -W 'counters overquota bytes-quota pkts-quota' \
+			-- "$cur" ) )
+	fi
 fi
 }
 
