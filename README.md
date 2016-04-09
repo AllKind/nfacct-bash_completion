@@ -12,6 +12,12 @@ https://github.com/AllKind/nfacct-bash_completion
 https://sourceforge.net/projects/nfacct-bashcompletion
 
 
+Programmable completion allows the user, while working in an interactive shell,
+to retrieve and auto-complete commands, their options, filenames, etc.
+Pressing [TAB] will complete on the current word, if only one match is found.
+If multiple completions are possible, they will be listed by hitting [TAB] again.
+
+
 Requirements
 ==========
 
